@@ -8,7 +8,7 @@ module Unione
     def initialize(api_key, username)
       @api_key  = api_key
       @username = username
-      @base_url = "https://one.unisender.com/ru/transactional/api/"
+      @base_url = "https://one.unisender.com/ru/transactional/api"
     end
 
     def translate_params(params)
