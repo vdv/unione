@@ -58,6 +58,17 @@ module Unione
 
     # POST /ru/transactional/api/v1/webhook/set.json
     def webhook_set(params)
+      # test_params = {
+      #   "url": "http://mydomain.com/api/emails/webhook",
+      #   "event_format": "json_post",
+      #   "delivery_info": 1,
+      #   "single_event": 1,
+      #   "maxParallel": 10,
+      #   "events": {
+      #     "email_status": ["sent","delivered","opened","hard_bounced","soft_bounced","spam","clicked","unsubscribed"],
+      #     "spam_block": ["*"]
+      #   }
+      # }
       post_request('v1/webhook/set.json', params)
     end
 
