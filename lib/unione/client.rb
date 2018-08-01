@@ -8,6 +8,7 @@ module Unione
     def initialize(api_key, username)
       @api_key  = api_key
       @username = username
+      @base_url = "https://one.unisender.com/ru/transactional/api/"
     end
 
     def translate_params(params)
@@ -46,12 +47,36 @@ module Unione
       end
     end
 
-
     def send_emails(params)
+      post_request('v1/email/send.json', params)
+    end
+
+    # POST /ru/transactional/api/v1/balance.json
+    def balance
+      post_request('v1/balance.json')
+    end
+
+    # POST /ru/transactional/api/v1/webhook/set.json
+    def webhook_set(params)
+      post_request('v1/webhook/set.json', params)
+    end
+
+    # POST /ru/transactional/api/v1/webhook/get.json
+    def webhook_get(params)
+      post_request('v1/webhook/get.json', params)
+    end
+
+    # POST /ru/transactional/api/v1/webhook/delete.json
+    def webhook_delete(params)
+      post_request('v1/webhook/delete.json', params)
+    end
+
+    def post_request(path, params = {})
       params.merge!({ "api_key" => api_key, "username"=> username })
 
-      url = "https://one.unisender.com/ru/transactional/api/v1/email/send.json"
+      url = "#{@base_url}/#{path}"
       uri = URI.parse(url)
+
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -64,6 +89,7 @@ module Unione
       raise NoMethodError.new("Unknown API method") if response.code == '404'
 
       { body: JSON.parse(response.body), code: response.code }
+
     end
 
   end
